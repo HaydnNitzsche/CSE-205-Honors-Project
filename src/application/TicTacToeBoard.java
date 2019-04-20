@@ -59,7 +59,7 @@ public class TicTacToeBoard extends BorderPane {
      * @param y
      * @return true if a winning move has been made, false otherwise
      */
-    public boolean checkForWin(int x, int y) {
+    private boolean checkForWin(int x, int y) {
         // checks for draw
         if (roundsPlayed == (ROWS * COLUMNS))
             return true;
@@ -91,7 +91,7 @@ public class TicTacToeBoard extends BorderPane {
      * 
      * @return true if drawn, false otherwise
      */
-    public boolean checkForDraw() {
+    private boolean checkForDraw() {
         if (roundsPlayed == (ROWS * COLUMNS))
             return true;
         else
@@ -121,15 +121,6 @@ public class TicTacToeBoard extends BorderPane {
                 j.setDisable(true);
             }
         }
-    }
-
-    /**
-     * return gameStats
-     * 
-     * @return gameStats
-     */
-    public Statistics getGameStats() {
-        return gameStats;
     }
 
     /**

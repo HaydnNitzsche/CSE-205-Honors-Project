@@ -8,10 +8,10 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 
 public class Main extends Application {
-    @Override
+    Statistics data;
     public void start(Stage primaryStage) {
         try {
-            Statistics data = Statistics.deserialize();
+            data = Statistics.deserialize();
             BorderPane root = new BorderPane();
             TicTacToeBoard board = new TicTacToeBoard(data);
             root.setCenter(board); // adds a game board to the stage
@@ -31,13 +31,23 @@ public class Main extends Application {
         launch(args);
     }
 
+    /**
+     * Saves the game data when the application is closed
+     * 
+     * @author Haydn
+     *
+     */
     private class SaveStateHandler implements EventHandler<WindowEvent> {
         private Statistics data;
+
         public SaveStateHandler(Statistics data) {
             super();
             this.data = data;
         }
         
+        /**
+         * Calls the serialize() method on the applicaiton's data
+         */
         public void handle(WindowEvent event) {
             data.serialize();
         }
