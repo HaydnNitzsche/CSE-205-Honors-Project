@@ -32,8 +32,8 @@ public class Main extends Application {
     }
 
     private class SaveStateHandler implements EventHandler<WindowEvent> {
-        Statistics data;
-        SaveStateHandler(Statistics data) {
+        private Statistics data;
+        public SaveStateHandler(Statistics data) {
             super();
             this.data = data;
         }

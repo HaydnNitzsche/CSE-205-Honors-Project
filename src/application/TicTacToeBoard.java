@@ -30,7 +30,7 @@ public class TicTacToeBoard extends BorderPane {
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLUMNS; j++) {
                 SubSquare newSquare = new SubSquare();
-                
+
                 newSquare.setOnAction(new PlayHandler());
 
                 // sets the position for the SubSquare
@@ -86,6 +86,11 @@ public class TicTacToeBoard extends BorderPane {
         return false;
     }
 
+    /**
+     * checks for a drawn state
+     * 
+     * @return true if drawn, false otherwise
+     */
     public boolean checkForDraw() {
         if (roundsPlayed == (ROWS * COLUMNS))
             return true;
@@ -96,7 +101,7 @@ public class TicTacToeBoard extends BorderPane {
     /**
      * Clears the board and resets the board piece's values
      */
-    void clearBoard() {
+    private void clearBoard() {
         // parses through all elements in the board
         for (SubSquare[] i : squares) {
             for (SubSquare j : i) {
@@ -106,26 +111,107 @@ public class TicTacToeBoard extends BorderPane {
         }
         roundsPlayed = 0;
     }
-    
+
     /**
      * disables the game board
      */
-    public void disablePlay() {
+    private void disablePlay() {
         for (SubSquare[] i : squares) {
             for (SubSquare j : i) {
                 j.setDisable(true);
             }
         }
     }
-    
+
     /**
      * return gameStats
+     * 
      * @return gameStats
      */
     public Statistics getGameStats() {
         return gameStats;
     }
-    
+
+    /**
+     * Creates a new window that displays post game statistics
+     * 
+     * @param winString
+     */
+    private void createWinDialogue(String winString) {
+        disablePlay();
+
+        // creates the label with information
+        Label winLabel = new Label(winString + " time(s) in " + gameStats.getGamesPlayed() + " game(s) played!");
+
+        // creates a button to close the window and reset the board
+        Button closeButton = new Button("CLOSE");
+        closeButton.setOnAction(new CloseWindowHandler());
+        // centers the button in a pane
+        BorderPane buttonLayout = new BorderPane();
+        buttonLayout.setCenter(closeButton);
+
+        // formats the button and label
+        BorderPane winNotifierLayout = new BorderPane();
+        winNotifierLayout.setCenter(winLabel);
+        winNotifierLayout.setBottom(buttonLayout);
+
+        // creates a new scene
+        Scene dialogScene = new Scene(winNotifierLayout, 450, 50);
+
+        // adds the scene to a stage
+        Stage winNotifier = new Stage();
+        winNotifier.setScene(dialogScene);
+        winNotifier.setTitle("Game Complete");
+        winNotifier.setOnCloseRequest(new WindowClosedHandler());
+        winNotifier.show();
+    }
+
+    /**
+     * 
+     * @param currentPlayer
+     */
+    public void updateCurrentPlayer(int currentPlayer) {
+        String currentPlayerName = (currentPlayer == 1) ? "X" : "O";
+        currentPlayerLabel.setText("It is " + currentPlayerName + "'s turn to play");
+        currentPlayer *= -1;
+    }
+
+    /**
+     * clears the stats
+     * 
+     * @author Haydn
+     *
+     */
+    private class ClearStatsHandler implements EventHandler<ActionEvent> {
+        public void handle(ActionEvent event) {
+            gameStats = new Statistics();
+        }
+    }
+
+    /**
+     * Clears the board and exits the statistics window
+     * 
+     * @author Haydn Nitzsche
+     */
+    private class CloseWindowHandler implements EventHandler<ActionEvent> {
+        public void handle(ActionEvent event) {
+            Button source = (Button) event.getSource();
+            Stage stage = (Stage) source.getScene().getWindow();
+            stage.close();
+            clearBoard();
+        }
+    }
+
+    /**
+     * Clears the board in case a user does not properly exit the statistics window
+     * 
+     * @author Haydn Nitzsche
+     */
+    private class WindowClosedHandler implements EventHandler<WindowEvent> {
+        public void handle(WindowEvent event) {
+            clearBoard();
+        }
+    }
 
     /**
      * Processes a turn in the game
@@ -159,85 +245,5 @@ public class TicTacToeBoard extends BorderPane {
             updateCurrentPlayer(currentPlayer);
         }
     }
-    
-    /**
-     * Creates a new window that displays post game statistics
-     * 
-     * @param winString
-     */
-    private void createWinDialogue(String winString) {
-        disablePlay();
 
-        // creates the label with information
-        Label winLabel = new Label(
-                winString + " time(s) in " + gameStats.getGamesPlayed() + " game(s) played!");
-
-        // creates a button to close the window and reset the board
-        Button closeButton = new Button("CLOSE");
-        closeButton.setOnAction(new CloseWindowHandler());
-        // centers the button in a pane
-        BorderPane buttonLayout = new BorderPane();
-        buttonLayout.setCenter(closeButton);
-
-        // formats the button and label
-        BorderPane winNotifierLayout = new BorderPane();
-        winNotifierLayout.setCenter(winLabel);
-        winNotifierLayout.setBottom(buttonLayout);
-
-        // creates a new scene
-        Scene dialogScene = new Scene(winNotifierLayout, 450, 50);
-
-        // adds the scene to a stage
-        Stage winNotifier = new Stage();
-        winNotifier.setScene(dialogScene);
-        winNotifier.setTitle("Game Complete");
-        winNotifier.setOnCloseRequest(new WindowClosedHandler());
-        winNotifier.show();
-    }
-
-    /**
-     * Clears the board and exits the statistics window
-     * 
-     * @author Haydn Nitzsche
-     */
-    private class CloseWindowHandler implements EventHandler<ActionEvent> {
-        public void handle(ActionEvent event) {
-            Button source = (Button) event.getSource();
-            Stage stage = (Stage) source.getScene().getWindow();
-            stage.close();
-            clearBoard();
-        }
-    }
-
-    /**
-     * Clears the board in case a user does not properly exit the statistics window
-     * 
-     * @author Haydn Nitzsche
-     */
-    private class WindowClosedHandler implements EventHandler<WindowEvent> {
-        public void handle(WindowEvent event) {
-            clearBoard();
-        }
-    }
-    
-    /**
-     * 
-     * @param currentPlayer
-     */
-    public void updateCurrentPlayer(int currentPlayer) {
-        String currentPlayerName = (currentPlayer == 1) ? "X" : "O";
-        currentPlayerLabel.setText("It is " + currentPlayerName + "'s turn to play");
-        currentPlayer*=-1;
-    }
-    
-    /**
-     * clears the stats
-     * @author Haydn
-     *
-     */
-    private class ClearStatsHandler implements EventHandler<ActionEvent> {
-        public void handle(ActionEvent event) {
-            gameStats = new Statistics();
-        }
-    }
 }

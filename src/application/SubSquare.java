@@ -15,7 +15,7 @@ public class SubSquare extends Button {
     private int xPosition;
     private int yPosition;
 
-    SubSquare() {
+    public  SubSquare() {
         super();
         // sets the aesthetic characteristics of the square
         this.setMinSize(SQUARE_SIZE, SQUARE_SIZE);

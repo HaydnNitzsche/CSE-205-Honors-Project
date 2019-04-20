@@ -9,7 +9,7 @@ public class Statistics implements Serializable {
     private int gamesPlayed;
     private static File data = new File("statistics.data");
 
-    Statistics() {
+    public Statistics() {
         xWins = 0;
         oWins = 0;
         draws = 0;
@@ -24,7 +24,7 @@ public class Statistics implements Serializable {
         ObjectOutputStream outStream = null;
         // attempts to write the object to a file
         try {
-            this.clearFile(data);
+            this.clearFile();
             fileOutput = new FileOutputStream(data);
             outStream = new ObjectOutputStream(fileOutput);
             outStream.writeObject(this);
@@ -72,7 +72,7 @@ public class Statistics implements Serializable {
      * clears the data file
      * @param data
      */
-    public void clearFile(File data) {
+    public void clearFile() {
         if (data.delete())
             data = new File("statistics.data");
     }
