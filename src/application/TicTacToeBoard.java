@@ -45,7 +45,7 @@ public class TicTacToeBoard extends BorderPane {
         clearStats = new Button("Clear Stats");
         clearStats.setOnAction(new ClearStatsHandler());
         currentPlayerLabel = new Label();
-        updateCurrentPlayer(currentPlayer);
+        updateCurrentPlayer();
         topLayout = new HBox(20);
         topLayout.getChildren().addAll(clearStats, currentPlayerLabel);
         this.setTop(topLayout);
@@ -161,8 +161,8 @@ public class TicTacToeBoard extends BorderPane {
      * 
      * @param currentPlayer
      */
-    public void updateCurrentPlayer(int currentPlayer) {
-        String currentPlayerName = (currentPlayer == 1) ? "X" : "O";
+    public void updateCurrentPlayer() {
+        String currentPlayerName = (currentPlayer == 1) ? "O" : "X";
         currentPlayerLabel.setText("It is " + currentPlayerName + "'s turn to play");
         currentPlayer *= -1;
     }
@@ -232,8 +232,7 @@ public class TicTacToeBoard extends BorderPane {
                     createWinDialogue("O Won! O has won " + gameStats.getOWins());
                 }
             }
-            currentPlayer *= -1;
-            updateCurrentPlayer(currentPlayer);
+            updateCurrentPlayer();
         }
     }
 
