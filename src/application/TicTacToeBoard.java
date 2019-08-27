@@ -60,9 +60,6 @@ public class TicTacToeBoard extends BorderPane {
      * @return true if a winning move has been made, false otherwise
      */
     private boolean checkForWin(int x, int y) {
-        // checks for draw
-        if (roundsPlayed == (ROWS * COLUMNS))
-            return true;
         // checks for a horizontal win
         if (squares[0][y].getText().compareTo(squares[1][y].getText()) == 0
                 && squares[1][y].getText().compareTo(squares[2][y].getText()) == 0
@@ -83,6 +80,8 @@ public class TicTacToeBoard extends BorderPane {
                 && squares[1][1].getText().compareTo(squares[2][0].getText()) == 0
                 && squares[0][2].getText().compareTo("") != 0)
             return true;
+        // checks for draw
+        checkForDraw();
         return false;
     }
 

@@ -24,7 +24,7 @@ public class Statistics implements Serializable {
         ObjectOutputStream outStream = null;
         // attempts to write the object to a file
         try {
-            this.clearFile();
+            clearFile();
             fileOutput = new FileOutputStream(data);
             outStream = new ObjectOutputStream(fileOutput);
             outStream.writeObject(this);
@@ -72,7 +72,7 @@ public class Statistics implements Serializable {
      * clears the data file
      * @param data
      */
-    public void clearFile() {
+    public static void clearFile() {
         if (data.delete())
             data = new File("statistics.data");
     }

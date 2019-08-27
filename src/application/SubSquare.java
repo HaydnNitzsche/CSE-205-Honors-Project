@@ -15,7 +15,7 @@ public class SubSquare extends Button {
     private int xPosition;
     private int yPosition;
 
-    public  SubSquare() {
+    public SubSquare() {
         super();
         // sets the aesthetic characteristics of the square
         this.setMinSize(SQUARE_SIZE, SQUARE_SIZE);
@@ -23,9 +23,10 @@ public class SubSquare extends Button {
                 new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         this.setFont(Font.font("Courier New", FontWeight.EXTRA_BOLD, 36));
     }
-    
+
     /**
      * Sets the contents of the button based on which player played
+     * 
      * @param player
      */
     public void setContents(int currentPlayer) {

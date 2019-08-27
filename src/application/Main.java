@@ -8,19 +8,18 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 
 public class Main extends Application {
-    Statistics data;
+    Statistics gameData = Statistics.deserialize();
     public void start(Stage primaryStage) {
         try {
-            data = Statistics.deserialize();
             BorderPane root = new BorderPane();
-            TicTacToeBoard board = new TicTacToeBoard(data);
+            TicTacToeBoard board = new TicTacToeBoard(gameData);
             root.setCenter(board); // adds a game board to the stage
             Scene scene = new Scene(root, 300, 320);
             scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.setTitle("Tic-Tac-Toe"); // adds a title to the window
             primaryStage.setResizable(false);
-            primaryStage.setOnCloseRequest(new SaveStateHandler(data));
+            primaryStage.setOnCloseRequest(new SaveStateHandler());
             primaryStage.show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -38,12 +37,7 @@ public class Main extends Application {
      *
      */
     private class SaveStateHandler implements EventHandler<WindowEvent> {
-        private Statistics data;
-
-        public SaveStateHandler(Statistics data) {
-            super();
-            this.data = data;
-        }
+        private Statistics data = gameData;
         
         /**
          * Calls the serialize() method on the applicaiton's data
